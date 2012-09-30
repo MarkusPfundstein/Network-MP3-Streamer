@@ -1,6 +1,6 @@
 GCC=gcc
 FLAGS=-Wall -O2
-LIBS=
+LIBS=-lpthread
 INCLUDES=
 OBJ=main.o
 
