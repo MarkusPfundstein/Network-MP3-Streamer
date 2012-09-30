@@ -125,6 +125,7 @@ cmd_thread_main(void *args)
     make_socket_nonblock(socket);
     
     while (1) {
+        FD_ZERO(&read_set);
         FD_SET(STDIN_FILENO, &read_set);
         FD_SET(socket, &read_set);
         num_ready = select(20, &read_set, NULL, NULL, NULL);
@@ -184,6 +185,7 @@ main(int argc, char** argv)
     pthread_t cmd_thread;
 
     err = 0;
+    cmd_thread = -1;
 
     if (argc < 4) {
         fprintf(stderr, "usage %s hostname port file\n", argv[0]);
@@ -254,12 +256,17 @@ main(int argc, char** argv)
 
     close(stream_fd);
 
+    
 
 clean:
 
-    fprintf(stderr, "shutdown, waiting for thread...\n");
-    pthread_join(cmd_thread, NULL);
     fprintf(stderr, "shutdown\n");
+
+    if (cmd_thread != -1) {
+        fprintf(stderr, "shutdown, waiting for thread...\n");
+        pthread_join(cmd_thread, NULL);
+        pthread_detach(cmd_thread);
+    }
 
     close(cmd_fd);
     close(stream_fd);
