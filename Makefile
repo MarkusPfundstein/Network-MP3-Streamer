@@ -8,7 +8,7 @@ main.o : src/main.c
 	${GCC} ${FLAGS} -c src/main.c ${INCLUDES}
 
 all : ${OBJ}
-	${GCC} ${FLAGS} ${OBJ} -o quiiStream.out ${LIBS}
+	${GCC} ${FLAGS} ${OBJ} -o streamer.out ${LIBS}
 
 clean :
 	rm *.o *.out
